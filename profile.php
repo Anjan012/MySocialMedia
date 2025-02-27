@@ -10,40 +10,9 @@ include("classes/login.php");
 include("classes/user.php");
 include("classes/post.php");
 
-// check if the user is logged in 
-
-if (isset($_SESSION['mybook_userid']) && is_numeric($_SESSION['mybook_userid'])) // isnumeric here you have to check that the people has not put any malicious software
-{
-
-  // assin it to the id 
-  $id = $_SESSION['mybook_userid'];
-  $login = new Login();
-  $result = $login->check_login($id);
-
-  if ($result) {
-
-    // retrieve the data 
-    $user = new User();
-    $user_data = $user->get_data($id);
-
-    // just in case checking 
-    if (!$user_data) {
-      // redirect
-      header("Location: login.php");
-      die;
-    }
-  } else {
-
-    // redirect
-    header("Location: login.php");
-    die; // it gets die and don't load the rest of the page 
-  }
-} else {
-
-  // redirect
-  header("Location: login.php");
-  die;
-}
+$login = new Login();
+// capturing user data 
+$user_data = $login->check_login($_SESSION['mybook_userid']);
 
 // posting starts here
 
@@ -51,9 +20,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $post = new Post();
   $id = $_SESSION['mybook_userid'];
   $result = $post->create_post($id, $_POST);
+
+  // solving the problem when refresh son't store data in database of identical post
+  if($result === '') // when we are posting something we are returning a error 
+  {
+
+    header("Location: profile.php");
+    die;
+
+  }else{
+
+    echo "<div style='text-align:center; font-size:12px; color:white; background-color:grey;'>";
+    echo "The following errors occured <br> <br> ";
+    echo $result;
+    echo "</div>";
+
+  }
 }
 
+// collect posts
 
+$post = new Post();
+$id = $_SESSION['mybook_userid'];
+$posts = $post->get_post($id);
+
+
+// collect friends
+
+$user = new User();
+$id = $_SESSION['mybook_userid'];
+$friends = $user->get_friends($id);
 
 ?>
 
@@ -180,7 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <?php echo $user_data['first_name'] . " " . $user_data['last_name'] ?>
       </div>
       <br>
-      <div id="menu_buttons">Timeline </div>
+      <a href="index.php"><div id="menu_buttons">Timeline </div> </a>
       <div id="menu_buttons">About</div>
       <div id="menu_buttons">Friends</div>
       <div id="menu_buttons">Photos</div>
@@ -194,25 +190,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       <div style="min-height:400px; flex:1;">
         <div id="friends_bar">
           Friends <br>
-          <div id="friends">
-            <img src="user1.jpg" alt="user" id="friends_img"> <br>
-            First User
-          </div>
 
-          <div id="friends">
-            <img src="user2.jpg" alt="user" id="friends_img"> <br>
-            Second User
-          </div>
+          <?php 
 
-          <div id="friends">
-            <img src="user3.jpg" alt="user" id="friends_img"> <br>
-            African girl
-          </div>
+          if($friends){
+            foreach($friends as $FRIEND_ROW)
+            {
+             
+              include('user.php');
 
-          <div id="friends">
-            <img src="user4.jpg" alt="user" id="friends_img"> <br>
-            African Dude
-          </div>
+            }
+          }
+          ?>
+          
         </div>
 
       </div>
@@ -231,35 +221,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <!-- posts  -->
         <div id="post_bar">
 
-          <!-- post 1 -->
-          <div id="post">
+          <?php 
 
-            <div>
-              <img src="user1.jpg" alt="user" style="width: 75px; margin-right:4px;">
-            </div>
-            <div>
-              <div style="font-weight: bold; color:#405d9b;">Fisrt Guy</div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi odit hic consequuntur provident similique veniam in suscipit, nostrum expedita ipsam nobis ullam omnis.
-              <br><br>
-              <a href="">like</a> . <a href="">Comment </a>. <span style="color: #999;">Feburary 15 2025 </span>
-            </div>
+          if($posts){
+            foreach($posts as $ROW)
+            {
+              $user = new User();
+              $ROW_USER = $user->get_user($ROW['userid']);
+              // by doing this we can simply loop the posts
+              include('post.php');
 
-          </div>
-
-          <!-- post 2 -->
-          <div id="post">
-
-            <div>
-              <img src="user4.jpg" alt="user" style="width: 75px; margin-right:4px;">
-            </div>
-            <div>
-              <div style="font-weight: bold; color:#405d9b;">African Dude</div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi odit hic consequuntur provident similique veniam in suscipit, nostrum expedita ipsam nobis ullam omnis.
-              <br><br>
-              <a href="">like</a> . <a href="">Comment </a>. <span style="color: #999;">Feburary 15 2025 </span>
-            </div>
-
-          </div>
+            }
+          }
+          ?>
 
         </div>
       </div>

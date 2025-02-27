@@ -43,6 +43,23 @@
       
     }
 
+    public function get_post($id)
+    {
+
+
+      $query = "select * from posts where userid = '$id' order by id desc"; // we will not put limit here cause we want to retrieve all post 
+
+        $DB = new Database();
+        $result = $DB->read($query);
+        if($result)
+        {
+          return $result;
+        }else{
+          return false;
+        }
+
+    }
+
   }
 
 ?>

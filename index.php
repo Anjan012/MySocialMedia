@@ -1,3 +1,20 @@
+<?php
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+
+session_start();
+
+include("classes/connect.php");
+include("classes/login.php");
+include("classes/user.php");
+include("classes/post.php");
+
+$login = new Login();
+// capturing user data 
+$user_data = $login->check_login($_SESSION['mybook_userid']);
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +63,7 @@
   }
 
   #friends_bar {
-     min-height: 400px;
+    min-height: 400px;
     margin-top: 20px;
     padding: 8px;
     text-align: center;
@@ -111,7 +128,7 @@
   <!-- cover Area -->
   <!-- if the content are less the min height will be 400px if more it will extend automatically  -->
   <div style="width:800px; margin:auto; min-height:400px;">
-    
+
 
     <!-- Below cover area ------------- -->
     <!-- flex is the way to streach this to fill the space flex:1 for both equally streches share area equally but i want to flex twice as much to first div so flex 2.5 for second and 1 for the first-->
@@ -122,7 +139,7 @@
         <div id="friends_bar">
 
           <img src="selfie.jpg" alt="profile" id="profile_pic"> <br>
-          Mary Banda 
+          Mary Banda
         </div>
 
       </div>
