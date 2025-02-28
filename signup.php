@@ -125,7 +125,6 @@ include("classes/signup.php");
         <option> <?php echo $gender ?> </option>
         <option>Male</option>
         <option>Female</option>
-        <option>Other</option>
       </select>
       <br><br>
 

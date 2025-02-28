@@ -20,7 +20,7 @@
         if($key == "email")
         {
 
-          // preg amtch is a function it has regular expression
+          // preg match is a function it has regular expression
          if(!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$value))
          {
           $this->error =  $this->error . " invalid email address! <br>";
