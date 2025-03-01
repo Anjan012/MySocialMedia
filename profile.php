@@ -154,24 +154,16 @@ $friends = $user->get_friends($id);
 
 <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#d0d8e4">
   <br>
-  <!-- This is the top blue bar code  -->
-  <div id="blue_bar">
-    <div style="margin:auto; width:800px; font-size:30px;">
-      <!-- &nbsp  for space between -->
-      Mybook &nbsp &nbsp <input type="text" id="search_box" placeholder="search for people">
-      <img src="selfie.jpg" alt="profile" style="width: 50px; float:right;">
-      <a href="logout.php">
-        <span style="font-size: 11px; float:right; margin:10px; color:white;">logout</span>
-      </a>
-    </div>
-  </div>
+   <?php include('header.php'); ?>
 
   <!-- cover Area -->
   <!-- if the content are less the min height will be 400px if more it will extend automatically  -->
   <div style="width:800px; margin:auto; min-height:400px;">
     <div style="background-color: white; text-align:center; color:#405d9b;">
       <img src="mountain.jpg" alt="cover" style="width: 100%;" ;>
-      <img src="selfie.jpg" alt="profile" id="profile_pic"><br>
+      <span style="font-size: 12x;"><img src="selfie.jpg" alt="profile" id="profile_pic"> <br>
+        <a href="change_profile_image.php" style="text-decoration: none; color:#f0f;">Change image </a>
+      </span><br>
       <div style="font-size: 20px;">
         <?php echo $user_data['first_name'] . " " . $user_data['last_name'] ?>
       </div>

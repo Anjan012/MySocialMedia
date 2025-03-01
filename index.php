@@ -9,6 +9,7 @@ include("classes/login.php");
 include("classes/user.php");
 include("classes/post.php");
 
+// This will redirect us if we are not logged in
 $login = new Login();
 // capturing user data 
 $user_data = $login->check_login($_SESSION['mybook_userid']);
@@ -116,14 +117,7 @@ $user_data = $login->check_login($_SESSION['mybook_userid']);
 
 <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#d0d8e4">
   <br>
-  <!-- This is the top blue bar code  -->
-  <div id="blue_bar">
-    <div style="margin:auto; width:800px; font-size:30px;">
-      <!-- &nbsp  for space between -->
-      Mybook &nbsp &nbsp <input type="text" id="search_box" placeholder="search for people">
-      <img src="selfie.jpg" alt="profile" style="width: 50px; float:right;">
-    </div>
-  </div>
+  <?php include('header.php'); ?>
 
   <!-- cover Area -->
   <!-- if the content are less the min height will be 400px if more it will extend automatically  -->
@@ -139,7 +133,8 @@ $user_data = $login->check_login($_SESSION['mybook_userid']);
         <div id="friends_bar">
 
           <img src="selfie.jpg" alt="profile" id="profile_pic"> <br>
-          Mary Banda
+          <a href="profile.php" style="text-decoration: none;"><?php echo $user_data['first_name'] . " <br> " . $user_data['last_name']; ?></a>
+          
         </div>
 
       </div>
