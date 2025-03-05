@@ -161,7 +161,20 @@ $friends = $user->get_friends($id);
   <div style="width:800px; margin:auto; min-height:400px;">
     <div style="background-color: white; text-align:center; color:#405d9b;">
       <img src="mountain.jpg" alt="cover" style="width: 100%;" ;>
-      <span style="font-size: 12x;"><img src="selfie.jpg" alt="profile" id="profile_pic"> <br>
+      <span style="font-size: 12x;">
+        
+      <?php
+
+      $image = ''; // image is empty
+      if(file_exists($user_data['profile_image'])){
+
+        $image = $user_data['profile_image'];
+      }
+
+      ?>
+
+      <img src="<?php echo $image ?>" alt="profile" id="profile_pic"> <br>
+
         <a href="change_profile_image.php" style="text-decoration: none; color:#f0f;">Change image </a>
       </span><br>
       <div style="font-size: 20px;">
